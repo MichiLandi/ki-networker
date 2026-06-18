@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>BTN 3.0 · Vermarktungskonstrukt · Kanäle & Botschaften</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060f;--line:#1c2a55;--blue:#3b82f6;--blue2:#6aa3ff;--violet:#7c5cff;--cyan:#22d3ee;
+    --txt:#eaf0ff;--mut:#9aabd6;--mut2:#5d6b9a;--gold:#ffc24b;--green:#37d39b;
+    --wa:#25d366;
+    --display:'Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif;
+    --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  #neural{position:fixed;inset:0;z-index:0;opacity:.45}
+  .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(900px 600px at 80% -5%,rgba(124,92,255,.2),transparent 60%),
+      radial-gradient(800px 600px at 10% 5%,rgba(59,130,246,.18),transparent 55%),
+      radial-gradient(700px 520px at 50% 118%,rgba(34,211,238,.12),transparent 60%);animation:drift 20s ease-in-out infinite alternate}
+  @keyframes drift{to{transform:translateY(-26px) scale(1.05)}}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 26px;position:relative;z-index:2}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--blue),var(--violet),var(--cyan));box-shadow:0 0 14px rgba(106,163,255,.6)}
+  nav{position:fixed;top:0;width:100%;z-index:40;backdrop-filter:blur(12px);background:rgba(5,6,15,.6);border-bottom:1px solid rgba(28,42,85,.6)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:1060px}
+  .brand{font-family:var(--display);font-weight:700;display:flex;align-items:center;gap:9px;font-size:15px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  nav .links{display:flex;gap:20px}
+  nav .links a{color:var(--mut);text-decoration:none;font-size:13px;font-weight:500;transition:.15s}
+  nav .links a:hover{color:var(--txt)}
+  header{min-height:78vh;display:flex;align-items:center;padding:96px 0 50px;position:relative;z-index:2}
+  .tagchip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue2);background:rgba(59,130,246,.08)}
+  h1{font-family:var(--display);font-size:clamp(36px,6vw,68px);line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:22px 0 0}
+  .grad{background:linear-gradient(100deg,var(--blue2),var(--violet) 45%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stream{font-family:var(--display);font-size:clamp(17px,2.4vw,23px);color:var(--mut);margin-top:22px;min-height:2.4em;max-width:720px}
+  .cursor{display:inline-block;width:10px;height:1.05em;background:var(--cyan);margin-left:3px;vertical-align:-2px;animation:blink 1s steps(1) infinite;box-shadow:0 0 10px var(--cyan)}
+  @keyframes blink{50%{opacity:0}}
+  section{position:relative;z-index:2;padding:74px 0;border-top:1px solid rgba(28,42,85,.4)}
+  .eyebrow{font-family:var(--display);color:var(--cyan);font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px}
+  h2{font-family:var(--display);font-size:clamp(26px,4vw,40px);line-height:1.1;font-weight:700;letter-spacing:-.015em;margin-bottom:12px}
+  p.lead{font-size:17px;color:var(--mut);max-width:760px}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .glass{background:linear-gradient(180deg,rgba(17,26,62,.65),rgba(12,19,48,.45));border:1px solid var(--line);border-radius:18px;padding:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+  /* message pillars */
+  .pillar .tag{font-family:var(--display);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .pillar.p1 .tag{color:var(--gold)} .pillar.p2 .tag{color:var(--cyan)} .pillar.p3 .tag{color:var(--violet)}
+  .pillar h3{font-family:var(--display);font-size:20px;margin-bottom:8px}
+  .pillar p{color:var(--mut);font-size:14.5px}
+  .quote{margin-top:14px;padding:12px 14px;border-left:2px solid var(--blue);background:rgba(59,130,246,.06);border-radius:0 10px 10px 0;font-size:14px;color:var(--txt);font-style:italic}
+  /* phase strip */
+  .phases{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+  .phase{border:1px solid var(--line);border-radius:18px;padding:24px;background:linear-gradient(135deg,rgba(59,130,246,.08),transparent)}
+  .phase.p2{background:linear-gradient(135deg,rgba(124,92,255,.1),transparent)}
+  .phase .ph{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue2);margin-bottom:8px}
+  .phase.p2 .ph{color:var(--violet)}
+  .phase h3{font-family:var(--display);font-size:20px;margin-bottom:8px}
+  .phase ul{list-style:none;margin-top:10px}
+  .phase li{padding:5px 0 5px 22px;position:relative;color:var(--mut);font-size:14.5px}
+  .phase li::before{content:"";position:absolute;left:3px;top:13px;width:7px;height:7px;border-radius:2px;background:var(--blue);transform:rotate(45deg)}
+  /* channel cards */
+  .chan{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:linear-gradient(180deg,rgba(17,26,62,.55),rgba(12,19,48,.4));margin-top:18px}
+  .chan .ch-head{display:flex;align-items:center;gap:14px;padding:20px 22px;border-bottom:1px solid var(--line);background:rgba(124,92,255,.05)}
+  .chan .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:rgba(59,130,246,.12);border:1px solid var(--line);flex:0 0 46px}
+  .chan .ch-title{flex:1}
+  .chan .ch-title h3{font-family:var(--display);font-size:20px}
+  .chan .ch-title .role{color:var(--mut);font-size:13.5px}
+  .chan .badge{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .badge.now{background:rgba(55,211,155,.14);color:var(--green);border:1px solid rgba(55,211,155,.3)}
+  .badge.later{background:rgba(100,112,151,.14);color:var(--mut);border:1px solid var(--line)}
+  .ch-body{padding:20px 22px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .ch-col h4{font-family:var(--display);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut2);margin-bottom:8px}
+  .ch-col ul{list-style:none}
+  .ch-col li{padding:4px 0 4px 18px;position:relative;color:var(--mut);font-size:14px}
+  .ch-col li::before{content:"▸";position:absolute;left:0;color:var(--cyan)}
+  .sample{grid-column:1/-1;background:#0a1426;border:1px dashed var(--line);border-radius:12px;padding:14px 16px;font-size:14px;color:var(--mut)}
+  .sample .lbl{font-family:var(--display);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+  .sample b{color:var(--txt)}
+  .sample.wa{border-color:rgba(37,211,102,.3);background:rgba(37,211,102,.05)}
+  .sample.wa .lbl{color:var(--wa)}
+  .cta-mini{display:inline-block;margin-top:10px;font-size:13px;color:var(--blue2)}
+  /* hooks */
+  .hooks{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .hook{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:rgba(255,255,255,.025);font-size:15px;color:var(--txt);position:relative;padding-left:46px}
+  .hook .h-n{position:absolute;left:14px;top:15px;font-family:var(--display);font-weight:700;color:var(--blue2);font-size:14px}
+  .hook span{color:var(--mut2);display:block;font-size:12.5px;margin-top:4px;font-family:var(--body)}
+  /* voice strip */
+  .voice{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+  .vcard{border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;background:rgba(255,255,255,.02)}
+  .vcard .vt{font-family:var(--display);font-weight:700;font-size:15px;margin-bottom:4px}
+  .vcard p{color:var(--mut);font-size:13px}
+  /* cta */
+  .cta-card{margin-top:30px;background:linear-gradient(135deg,rgba(124,92,255,.16),rgba(34,211,238,.08));border:1px solid var(--line);border-radius:24px;padding:40px 30px;text-align:center}
+  .btn{font-family:var(--display);font-weight:600;font-size:15px;text-decoration:none;padding:15px 28px;border-radius:13px;display:inline-block;color:#fff;background:linear-gradient(90deg,var(--blue),var(--violet));box-shadow:0 12px 36px rgba(124,92,255,.4);transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.ghost{background:rgba(255,255,255,.04);border:1px solid var(--line)}
+  footer{position:relative;z-index:2;padding:46px 0;text-align:center;color:var(--mut2);font-size:13px;border-top:1px solid rgba(28,42,85,.4)}
+  @media(max-width:760px){.grid2,.grid3,.phases,.ch-body,.hooks{grid-template-columns:1fr}.voice{grid-template-columns:1fr 1fr}nav .links{display:none}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<canvas id="neural"></canvas>
+<div class="aurora"></div>
+
+<nav><div class="wrap">
+  <div class="brand"><span class="dot"></span> BTN 3.0 · Vermarktungskonstrukt</div>
+  <div class="links">
+    <a href="#botschaften">Botschaften</a>
+    <a href="#kanaele">Kanäle</a>
+    <a href="#hooks">Hooks</a>
+    <a href="#fahrplan">Fahrplan</a>
+  </div>
+</div></div></nav>
+
+<!-- HERO -->
+<header><div class="wrap">
+  <span class="tagchip"><span class="dot"></span> Go-to-Market · KI Networker Kurs</span>
+  <h1>Wie wir den Kurs in den <span class="grad">Markt bringen</span>.</h1>
+  <div class="stream" id="stream"></div>
+</div></header>
+
+<!-- FUNDAMENT -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Das Fundament</div>
+  <h2>Eine Geschichte. Drei Botschaften. Ein Funnel.</h2>
+  <p class="lead">Jeder Kanal erzählt dieselbe Geschichte — nur im Format des Kanals. Das macht die Vermarktung
+  unverwechselbar und erkennbar. Reihenfolge in jedem Kanal: <em style="color:var(--cyan)">Story → Schmerz →
+  Lösung → Angebot.</em> Alles führt auf den kostenlosen <strong>KI-Tagesplan</strong> (Türöffner) und von dort
+  in den Funnel.</p>
+</div></section>
+
+<!-- BOTSCHAFTEN -->
+<section id="botschaften"><div class="wrap reveal">
+  <div class="eyebrow">Die Botschaften</div>
+  <h2>Drei Säulen, die alles tragen.</h2>
+  <p class="lead">Jede Anzeige, jede Folge, jede Mail nutzt eine oder mehrere dieser Säulen. Nie etwas Neues
+  erfinden — immer auf diesen dreien aufbauen.</p>
+  <div class="grid3">
+    <div class="glass pillar p1 reveal">
+      <div class="tag">Säule 1 · Der Schmerz</div>
+      <h3>„Morgens nur Chaos."</h3>
+      <p>Der akute, tägliche Schmerz: aufwachen ohne Plan, keine Ahnung wen ansprechen, viel tun und nichts bewegen.
+      Das ist der stärkste Türöffner — er trifft sofort.</p>
+      <div class="quote">„Du wachst auf und weißt nicht, was du tun sollst. Business-KI gibt dir jeden Morgen einen klaren Plan."</div>
+    </div>
+    <div class="glass pillar p2 reveal">
+      <div class="tag">Säule 2 · Die Autorität</div>
+      <h3>„Ich war im Silicon Valley."</h3>
+      <p>Die wahre Ursprungs-Story. Beantwortet das unausgesprochene „Warum ausgerechnet du?" — Andreas war an der
+      Quelle, nicht auf YouTube. Nicht kopierbar.</p>
+      <div class="quote">„Was ich im Silicon Valley gesehen habe, verändert unser Geschäft für immer — und ich hab's für Networker übersetzt."</div>
+    </div>
+    <div class="glass pillar p3 reveal">
+      <div class="tag">Säule 3 · Die Dringlichkeit</div>
+      <h3>„2028 — zwei Sorten Networker."</h3>
+      <p>Die Stakes. Die, die KI nutzen, und die, die ersetzt werden. Erzeugt Dringlichkeit ohne Rabatt — die Angst,
+      auf der falschen Seite zu stehen.</p>
+      <div class="quote">„KI ersetzt nicht deine Persönlichkeit. Sie verstärkt sie. Genau das ist HI × KI."</div>
+    </div>
+  </div>
+
+  <div class="glass reveal" style="margin-top:18px;border-color:var(--cyan);box-shadow:0 0 0 1px rgba(34,211,238,.3)">
+    <div class="tag" style="color:var(--cyan);font-family:var(--display);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Der Verstärker · Pre-Sale</div>
+    <h3 style="font-family:var(--display);font-size:20px;margin-bottom:8px">„Sei von Tag 1 dabei."</h3>
+    <p style="color:var(--mut);font-size:14.5px">Wir verkaufen schon vor dem 1. Juli — Käufer bekommen sofort das erste
+    Video, der volle Kurs schaltet am 1. Juli frei. Das ist der ehrliche Grund, <em style="color:var(--cyan)">jetzt</em>
+    zu kaufen statt später: nicht Rabatt, sondern <strong>Zugehörigkeit & Vorsprung</strong>. Plus echter Zeitdruck über
+    Countdown und begrenzte Analyse-Call-Slots — wirkt über <em style="color:var(--cyan)">alle</em> Kanäle.</p>
+    <div class="quote" style="border-left-color:var(--cyan);background:rgba(34,211,238,.06)">„Der Kurs startet am 1. Juli — aber wer jetzt dabei ist, bekommt sein erstes Video sofort und sichert sich den Platz von Tag 1."</div>
+  </div>
+</div></section>
+
+<!-- TONALITÄT -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Markenstimme · HI × KI</div>
+  <h2>Wie wir klingen.</h2>
+  <div class="voice">
+    <div class="vcard reveal"><div class="vt">Auf Augenhöhe</div><p>Wir reden mit Networkern, nicht von oben herab.</p></div>
+    <div class="vcard reveal"><div class="vt">Klar statt Tech</div><p>Kein KI-Geschwurbel. Nutzen vor Fachbegriff.</p></div>
+    <div class="vcard reveal"><div class="vt">Ehrlich & warm</div><p>Herzintelligenz: echte Nähe, kein Hype-Druck.</p></div>
+    <div class="vcard reveal"><div class="vt">Beweis vor Behauptung</div><p>Zeigen statt versprechen — der Funnel liefert live.</p></div>
+  </div>
+</div></section>
+
+<!-- KANAL-MIX -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Der Kanal-Mix</div>
+  <h2>Zwei Phasen, klare Reihenfolge.</h2>
+  <p class="lead">Erst beweisen, dann skalieren. Wir starten mit den Kanälen, die nichts kosten und am wärmsten sind —
+  und drücken Paid erst dazu, wenn der Funnel nachweislich konvertiert.</p>
+  <div class="phases">
+    <div class="phase p1 reveal">
+      <div class="ph">Phase 1 · ab sofort</div>
+      <h3>Organisch + warme Listen</h3>
+      <p style="color:var(--mut);font-size:14.5px">Reichweite & Vertrauen aufbauen, Funnel validieren, erste Cash-Flow-Daten.</p>
+      <ul>
+        <li>WhatsApp (8k) & E-Mail (15k) — die Warm-Aktivierung</li>
+        <li>Podcast — Autorität & Tiefe</li>
+        <li>YouTube & organische Reels — Demo & Reichweite</li>
+      </ul>
+    </div>
+    <div class="phase p2 reveal">
+      <div class="ph">Phase 2 · nach Funnel-Beweis</div>
+      <h3>Paid skalieren</h3>
+      <p style="color:var(--mut);font-size:14.5px">Die Gewinner-Botschaften mit Budget verstärken — kalte Zielgruppen.</p>
+      <ul>
+        <li>Meta Ads — Lead-Ads auf den KI-Tagesplan + Retargeting</li>
+        <li>Google Ads — High-Intent-Suchen abgreifen</li>
+        <li>YouTube Ads — die besten Demo-Hooks als Pre-Roll</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- KANAL-PLAYBOOK -->
+<section id="kanaele"><div class="wrap reveal">
+  <div class="eyebrow">Das Kanal-Playbook</div>
+  <h2>Jeder Kanal — Rolle, Botschaft, Beispiel.</h2>
+
+  <!-- WhatsApp -->
+  <div class="chan reveal">
+    <div class="ch-head"><div class="ic">💬</div><div class="ch-title"><h3>WhatsApp · 8.000 · Superchat</h3><div class="role">Höchste Intimität · Conversion & Call-Buchung</div></div><span class="badge now">Phase 1</span></div>
+    <div class="ch-body">
+      <div class="ch-col"><h4>Botschaft</h4><ul><li>Säule 1 (Schmerz) + persönlicher Ton</li><li>Sprachnachrichten von Andreas — der HI×KI-Beweis</li><li>1:1-Antworten, Closer-Handoff bei heißen Leads</li></ul></div>
+      <div class="ch-col"><h4>Mechanik</h4><ul><li>3-teilige Broadcast-Sequenz</li><li>Link → KI-Tagesplan → Voice-Note zurück</li><li>CTA: Plan holen, dann Pre-Sale-Zugang</li><li class="go">Countdown-Broadcasts: „noch X Tage bis Vollzugang"</li></ul></div>
+      <div class="sample wa"><div class="lbl">Beispiel · Voice-Note (≈30 Sek.)</div>
+      „Hey [Vorname], ehrlich: Die meisten von uns starten den Tag im Chaos — keine Ahnung, wo anfangen. Ich war gerade im Silicon Valley und hab was mitgebracht, das genau das löst. Beantworte 3 kurze Fragen, dann baut dir die KI in 60 Sekunden deinen Tag. Link kommt gleich. 👇"</div>
+      <div class="sample wa"><div class="lbl">Beispiel · Pre-Sale-Broadcast</div>
+      „[Vorname], der KI Networker Kurs startet am 1. Juli. Wer jetzt dabei ist, bekommt sein erstes Video <b>sofort</b> — und sichert sich den Platz von Tag 1. Noch [X] Tage. Willst du rein? 🚀"</div>
+    </div>
+  </div>
+
+  <!-- E-Mail -->
+  <div class="chan reveal">
+    <div class="ch-head"><div class="ic">✉️</div><div class="ch-title"><h3>E-Mail · 15.000 · ActiveCampaign</h3><div class="role">Story-Nurturing · breite Reichweite</div></div><span class="badge now">Phase 1</span></div>
+    <div class="ch-body">
+      <div class="ch-col"><h4>Botschaft</h4><ul><li>Säule 2 (Story) trägt die Sequenz</li><li>Tag für Tag tiefer: Story → Schmerz → Lösung → Angebot</li><li>Segmentiert nach Klick/Verhalten</li><li class="go">Nach Kauf: Vorfreude-Sequenz bis 1. Juli (gegen Refunds)</li></ul></div>
+      <div class="ch-col"><h4>Zwei Sequenzen</h4><ul><li><b>Verkauf:</b> 7-Tage (Story → Tagesplan → Angebot → Verknappung)</li><li><b>Nach Kauf:</b> Countdown, Behind-the-Scenes, Erinnerung ans 1. Video, Live-Setup-Call</li></ul></div>
+      <div class="sample"><div class="lbl">Beispiel · Betreffzeilen</div>
+      <b>Verkauf T1:</b> „Ich war im Silicon Valley — und es hat mich erschrocken" &nbsp;·&nbsp; <b>Pre-Sale:</b> „Start 1. Juli — dein erstes Video gibt's sofort" &nbsp;·&nbsp; <b>Nach Kauf:</b> „Noch [X] Tage bis dein voller Zugang freischaltet"</div>
+    </div>
+  </div>
+
+  <!-- Podcast -->
+  <div class="chan reveal">
+    <div class="ch-head"><div class="ic">🎙️</div><div class="ch-title"><h3>Podcast</h3><div class="role">Autorität & Tiefe · Vertrauen aufbauen</div></div><span class="badge now">Phase 1</span></div>
+    <div class="ch-body">
+      <div class="ch-col"><h4>Botschaft</h4><ul><li>Alle 3 Säulen in Langform</li><li>Live-Demo des Assistenten in einer Folge</li><li>Gast-Interviews mit KI-Networkern</li></ul></div>
+      <div class="ch-col"><h4>Folgen-Ideen</h4><ul><li>„Was ich im Silicon Valley gesehen habe"</li><li>„Dein perfekter Tag — mit KI in 60 Min"</li><li>„Die 5 echten Engpässe im Network"</li></ul></div>
+      <div class="sample"><div class="lbl">CTA am Ende jeder Folge</div>
+      „Mach dir in 60 Sekunden deinen KI-Tagesplan — Link in den Show-Notes." <a class="cta-mini" href="BTN_3.0_KI-Tagesplan.html">→ KI-Tagesplan</a></div>
+    </div>
+  </div>
+
+  <!-- YouTube -->
+  <div class="chan reveal">
+    <div class="ch-head"><div class="ic">▶️</div><div class="ch-title"><h3>YouTube + organische Reels</h3><div class="role">Demo & SEO · Dauer-Traffic</div></div><span class="badge now">Phase 1</span></div>
+    <div class="ch-body">
+      <div class="ch-col"><h4>Botschaft</h4><ul><li>Zeigen statt erzählen (Säule 1 in Aktion)</li><li>Vorher/Nachher: festgefahrener Chat → reaktiviert</li><li>SEO: „ChatGPT Network Marketing", „KI Vertrieb"</li></ul></div>
+      <div class="ch-col"><h4>Formate</h4><ul><li>Tutorial: „Ein Assistent, der dich kennt"</li><li>Shorts/Reels aus Podcast-Schnipseln</li><li>Andreas Talking-Head + Untertitel</li></ul></div>
+      <div class="sample"><div class="lbl">Beispiel · Reel-Hook (erste 3 Sek.)</div>
+      „Wenn du morgens nicht weißt, wo du anfangen sollst — dieses eine KI-Setup gibt dir jeden Tag einen klaren Plan."</div>
+    </div>
+  </div>
+
+  <!-- Meta Ads -->
+  <div class="chan reveal">
+    <div class="ch-head"><div class="ic">📣</div><div class="ch-title"><h3>Meta Ads</h3><div class="role">Skalierung & Retargeting · kalte Zielgruppen</div></div><span class="badge later">Phase 2</span></div>
+    <div class="ch-body">
+      <div class="ch-col"><h4>Botschaft</h4><ul><li>Säule 1 als Haupt-Hook (Chaos-Video)</li><li>Säule 2 als zweiter Winkel (Story)</li><li>Retargeting: Assistent-Demo → Sales Page</li></ul></div>
+      <div class="ch-col"><h4>Struktur</h4><ul><li>Lead-Ad / Traffic → KI-Tagesplan</li><li>Video-Hooks aus YT/Podcast recyceln</li><li>Retargeting auf Funnel-Besucher</li></ul></div>
+      <div class="sample"><div class="lbl">Beispiel · Primary Text</div>
+      „Die meisten Networker starten den Tag im Chaos. <b>Was, wenn dir eine KI jeden Morgen einen glasklaren Plan baut?</b> Mach in 60 Sek. deinen kostenlosen KI-Tagesplan 👇"</div>
+    </div>
+  </div>
+
+  <!-- Google Ads -->
+  <div class="chan reveal">
+    <div class="ch-head"><div class="ic">🔍</div><div class="ch-title"><h3>Google Ads</h3><div class="role">High-Intent · Kaufabsicht abgreifen</div></div><span class="badge later">Phase 2</span></div>
+    <div class="ch-body">
+      <div class="ch-col"><h4>Botschaft</h4><ul><li>Direkt, lösungsorientiert (kein Storytelling)</li><li>Auf die Sales Page, nicht den Tagesplan</li></ul></div>
+      <div class="ch-col"><h4>Keywords</h4><ul><li>„KI für Network Marketing"</li><li>„ChatGPT Vertrieb / Networker"</li><li>„Network Marketing automatisieren"</li></ul></div>
+      <div class="sample"><div class="lbl">Beispiel · Search-Anzeige</div>
+      <b>KI für Network Marketing</b> — Dein persönlicher KI-Assistent in 30 Tagen. Klarer Tagesplan, Follow-ups, Reaktivierung. Ohne Technikstress.</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- HOOK-BIBLIOTHEK -->
+<section id="hooks"><div class="wrap reveal">
+  <div class="eyebrow">Die Hook-Bibliothek</div>
+  <h2>Fertige Aufhänger für jeden Kanal.</h2>
+  <p class="lead">Sofort einsetzbar für Reels, Ads, Mail-Betreff, Podcast-Titel. Alle aus den drei Säulen abgeleitet.</p>
+  <div class="hooks">
+    <div class="hook reveal"><span class="h-n">01</span>Du wachst auf und weißt nicht, was du tun sollst?<span>Schmerz · Reel / Ad</span></div>
+    <div class="hook reveal"><span class="h-n">02</span>Was ich im Silicon Valley gesehen habe, verändert unser Geschäft.<span>Autorität · Podcast / Mail</span></div>
+    <div class="hook reveal"><span class="h-n">03</span>2028 gibt es nur noch zwei Sorten Networker.<span>Dringlichkeit · Ad / Reel</span></div>
+    <div class="hook reveal"><span class="h-n">04</span>Dein erster Wow-Moment mit KI — in unter 10 Minuten.<span>Lösung · YT / Ad</span></div>
+    <div class="hook reveal"><span class="h-n">05</span>Nachrichten, die wirklich nach dir klingen — nicht nach Bot.<span>Lösung · Reel</span></div>
+    <div class="hook reveal"><span class="h-n">06</span>Hol festgefahrene Chats zurück (live mit KI).<span>Demo · YT</span></div>
+    <div class="hook reveal"><span class="h-n">07</span>KI ersetzt nicht deine Persönlichkeit. Sie verstärkt sie.<span>Positionierung · überall</span></div>
+    <div class="hook reveal"><span class="h-n">08</span>Ein Assistent, der dich kennt — nicht irgendein ChatGPT.<span>Differenzierung · Ad</span></div>
+    <div class="hook reveal"><span class="h-n">09</span>Viel Aufwand, wenig Ergebnis? Es lag nie an deiner Motivation.<span>Schmerz · Mail / Reel</span></div>
+    <div class="hook reveal"><span class="h-n">10</span>Vom klassischen Networker zum KI-Networker in 30 Tagen.<span>Versprechen · überall</span></div>
+    <div class="hook reveal"><span class="h-n">11</span>Start 1. Juli — dein erstes Video gibt's sofort.<span>Pre-Sale · WhatsApp / Mail / Ad</span></div>
+    <div class="hook reveal"><span class="h-n">12</span>Sei von Tag 1 dabei — sichere dir jetzt deinen Platz.<span>Pre-Sale · überall</span></div>
+  </div>
+</div></section>
+
+<!-- FAHRPLAN -->
+<section id="fahrplan"><div class="wrap reveal">
+  <div class="eyebrow">Der Fahrplan</div>
+  <h2>So rollen wir aus.</h2>
+  <div class="grid2">
+    <div class="glass reveal">
+      <h3 style="font-family:var(--display);margin-bottom:10px">Diese Woche</h3>
+      <p style="color:var(--mut);font-size:14.5px">Teaser an die Listen („nächste Woche kommt etwas"). Podcast-Folge 1 (Silicon Valley) + erste Reels produzieren. Funnel scharf schalten.</p>
+    </div>
+    <div class="glass reveal">
+      <h3 style="font-family:var(--display);margin-bottom:10px">Pre-Sale-Start (jetzt)</h3>
+      <p style="color:var(--mut);font-size:14.5px">Warm-Aktivierung: WhatsApp-Broadcasts + 7-Tage-Mail-Sequenz. Alles auf den KI-Tagesplan → Pre-Sale-Kauf (sofort 1 Video). Erste Sales-Daten.</p>
+    </div>
+    <div class="glass reveal" style="border-color:var(--cyan)">
+      <h3 style="font-family:var(--display);margin-bottom:10px">Vorfreude-Phase (bis 1. Juli)</h3>
+      <p style="color:var(--mut);font-size:14.5px">Käufer warmhalten: Countdown, Behind-the-Scenes der Produktion, Erinnerung ans 1. Video. Senkt Refunds, baut Vorfreude — am 1. Juli Vollzugang + Live-Setup-Call.</p>
+    </div>
+    <div class="glass reveal">
+      <h3 style="font-family:var(--display);margin-bottom:10px">Wochen 2–4</h3>
+      <p style="color:var(--mut);font-size:14.5px">Funnel-Zahlen auswerten. Gewinner-Hooks identifizieren. Kleines Meta/Google-Testbudget auf die besten Botschaften.</p>
+    </div>
+    <div class="glass reveal">
+      <h3 style="font-family:var(--display);margin-bottom:10px">Ab August</h3>
+      <p style="color:var(--mut);font-size:14.5px">Paid skalieren, Podcast/YouTube als Dauer-Traffic. Die Maschine läuft — Kanäle füttern den Evergreen-Funnel.</p>
+    </div>
+  </div>
+
+  <div class="cta-card reveal">
+    <div class="eyebrow" style="margin-bottom:14px">Alles führt hierhin</div>
+    <h2 style="margin-bottom:14px">Jeder Kanal → ein Türöffner.</h2>
+    <p class="lead" style="margin:0 auto 26px;text-align:center">Sieh dir die Kundenreise an, auf die die ganze Vermarktung einzahlt.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a class="btn" href="BTN_3.0_KI-Tagesplan.html" target="_blank">🧠 KI-Tagesplan (Türöffner)</a>
+      <a class="btn ghost" href="BTN_3.0_Salespage.html" target="_blank">Sales Page →</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  BTN 3.0 · Vermarktungskonstrukt · Kanäle & Botschaften · HI × KI<br>
+  Become the Networker · Küffner Group
+</div></footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('bar');
+addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+/* reveal */
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* hero typewriter */
+const lines=['Mit welchen Botschaften? Mit welchen Kanälen? In welcher Reihenfolge?','Eine Geschichte, drei Säulen, sechs Kanäle — alles auf einen Türöffner.','Erst beweisen, dann mit Paid skalieren.'];
+const sEl=document.getElementById('stream');sEl.innerHTML='<span id="t"></span><span class="cursor"></span>';
+const tt=document.getElementById('t');let li=0,ci=0;
+function type(){const c=lines[li];if(ci<=c.length){tt.textContent=c.slice(0,ci++);setTimeout(type,30);}else setTimeout(erase,1900);}
+function erase(){const c=lines[li];if(ci>0){tt.textContent=c.slice(0,--ci);setTimeout(erase,14);}else{li=(li+1)%lines.length;setTimeout(type,220);}}
+setTimeout(type,500);
+/* neural canvas */
+const cv=document.getElementById('neural'),cx=cv.getContext('2d');let W,H,pts;
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight;const n=Math.min(60,Math.floor(W/24));pts=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3}));}
+rs();addEventListener('resize',rs);
+function draw(){cx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){const p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+  for(let j=i+1;j<pts.length;j++){const q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d<135){cx.strokeStyle='rgba(106,163,255,'+(1-d/135)*.2+')';cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);cx.stroke();}}
+  cx.fillStyle='rgba(124,92,255,.7)';cx.beginPath();cx.arc(p.x,p.y,1.6,0,7);cx.fill();}requestAnimationFrame(draw);}
+draw();
+</script>
+<script>/* Sicherheitsnetz */
+setTimeout(function(){document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in');});},2600);</script>
+</body>
+</html>

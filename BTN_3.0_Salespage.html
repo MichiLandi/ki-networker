@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30 Tage KI Networker Starter Kit · BTN 3.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060f;--line:#1c2a55;--blue:#3b82f6;--blue2:#6aa3ff;--violet:#7c5cff;--cyan:#22d3ee;
+    --txt:#eaf0ff;--mut:#9aabd6;--mut2:#5d6b9a;--gold:#ffc24b;--green:#37d39b;
+    --display:'Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif;
+    --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  #neural{position:fixed;inset:0;z-index:0;opacity:.45}
+  .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(900px 600px at 80% -5%,rgba(124,92,255,.2),transparent 60%),
+      radial-gradient(800px 600px at 10% 5%,rgba(59,130,246,.18),transparent 55%),
+      radial-gradient(700px 520px at 50% 118%,rgba(34,211,238,.12),transparent 60%);animation:drift 20s ease-in-out infinite alternate}
+  @keyframes drift{to{transform:translateY(-26px) scale(1.05)}}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 26px;position:relative;z-index:2}
+  .narrow{max-width:760px}
+  nav{position:fixed;top:0;width:100%;z-index:40;backdrop-filter:blur(12px);background:rgba(5,6,15,.6);border-bottom:1px solid rgba(28,42,85,.6)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:1000px}
+  .brand{font-family:var(--display);font-weight:700;display:flex;align-items:center;gap:9px;font-size:15px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  nav .navcta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;padding:9px 18px;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--violet))}
+  nav .navprice{color:var(--mut2);font-size:13px;margin-right:14px}
+  header{min-height:94vh;display:flex;align-items:center;padding:96px 0 50px;position:relative;z-index:2}
+  .tagchip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue2);background:rgba(59,130,246,.08)}
+  h1{font-family:var(--display);font-size:clamp(34px,6vw,68px);line-height:1.05;font-weight:700;letter-spacing:-.02em;margin:22px 0 0}
+  .grad{background:linear-gradient(100deg,var(--blue2),var(--violet) 45%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stream{font-family:var(--display);font-size:clamp(17px,2.3vw,22px);color:var(--mut);margin-top:22px;min-height:2.4em;max-width:680px}
+  .cursor{display:inline-block;width:10px;height:1.05em;background:var(--cyan);margin-left:3px;vertical-align:-2px;animation:blink 1s steps(1) infinite;box-shadow:0 0 10px var(--cyan)}
+  @keyframes blink{50%{opacity:0}}
+  .btn{font-family:var(--display);font-weight:600;font-size:16px;text-decoration:none;padding:16px 30px;border-radius:14px;cursor:pointer;border:none;display:inline-block;transition:transform .15s,box-shadow .15s}
+  .btn.prime{color:#fff;background:linear-gradient(90deg,var(--blue),var(--violet));box-shadow:0 12px 36px rgba(124,92,255,.42)}
+  .btn.prime:hover{transform:translateY(-2px)}
+  .btn.big{font-size:19px;padding:20px 44px}
+  .herobtns{margin-top:36px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .meta{color:var(--mut2);font-size:13.5px}
+  section{position:relative;z-index:2;padding:78px 0;border-top:1px solid rgba(28,42,85,.4)}
+  .eyebrow{font-family:var(--display);color:var(--cyan);font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px;text-align:center}
+  h2{font-family:var(--display);font-size:clamp(26px,4.2vw,42px);line-height:1.1;font-weight:700;letter-spacing:-.015em;text-align:center;margin-bottom:14px}
+  h2.left{text-align:left}
+  p.lead{font-size:17px;color:var(--mut);text-align:center;max-width:680px;margin:0 auto}
+  p.lead.left{text-align:left;margin:0}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  /* engpässe */
+  .pains{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:34px}
+  .pain{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:14px;padding:18px 14px;text-align:center}
+  .pain .ic{font-size:22px;margin-bottom:8px}.pain .t{font-family:var(--display);font-weight:600;font-size:14px}
+  /* story */
+  .story{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;margin-top:10px}
+  .story .visual{border-radius:22px;border:1px solid var(--line);min-height:280px;background:
+    linear-gradient(135deg,rgba(124,92,255,.18),rgba(34,211,238,.08)),radial-gradient(circle at 30% 30%,rgba(106,163,255,.3),transparent 50%);
+    display:grid;place-items:center;position:relative;overflow:hidden}
+  .story .visual .vt{font-family:var(--display);font-weight:700;font-size:20px;text-align:center;padding:20px;z-index:1;color:#dfe8ff}
+  .story .visual::after{content:"◈ ◈ ◈";position:absolute;bottom:18px;color:rgba(255,255,255,.25);letter-spacing:8px}
+  /* assistant demo */
+  .chat{max-width:680px;margin:34px auto 0;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,rgba(12,19,48,.92),rgba(8,11,28,.92));box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .chat .ctop{display:flex;align-items:center;gap:12px;padding:15px 20px;border-bottom:1px solid var(--line);background:rgba(124,92,255,.06)}
+  .av{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--violet));display:grid;place-items:center;font-family:var(--display);font-weight:700;box-shadow:0 0 18px rgba(124,92,255,.5);flex:0 0 38px}
+  .who{font-family:var(--display);font-weight:600;font-size:15px}.who small{display:block;color:var(--green);font-size:11.5px;font-weight:500}
+  .stream-area{padding:20px;min-height:170px;display:flex;flex-direction:column;gap:13px}
+  .msg{max-width:86%;padding:12px 15px;border-radius:16px;font-size:14.5px;line-height:1.55;animation:pop .3s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}}
+  .msg.user{align-self:flex-end;background:linear-gradient(90deg,var(--blue),#3666d6);color:#fff;border-bottom-right-radius:5px}
+  .msg.ai{align-self:flex-start;background:rgba(255,255,255,.045);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.ai b{color:var(--cyan)}
+  .typing{display:inline-flex;gap:5px;padding:4px 2px}
+  .typing i{width:8px;height:8px;border-radius:50%;background:var(--blue2);animation:td 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes td{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-5px)}}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;padding:0 20px 20px;justify-content:center}
+  .chip{font-size:13px;color:var(--blue2);background:rgba(59,130,246,.08);border:1px solid var(--line);border-radius:999px;padding:9px 14px;cursor:pointer;transition:.15s}
+  .chip:hover{background:rgba(59,130,246,.18);color:#fff}.chip:disabled{opacity:.35;cursor:default}
+  /* curriculum modules */
+  .mods{margin-top:34px;display:flex;flex-direction:column;gap:12px}
+  .mod{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(17,26,62,.4)}
+  .mhead{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer}
+  .mtag{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.08em;color:var(--blue2);background:rgba(59,130,246,.12);border:1px solid var(--line);border-radius:8px;padding:5px 10px;flex:0 0 auto;min-width:88px;text-align:center}
+  .mhead h3{font-family:var(--display);font-size:17px;flex:1}
+  .mhead .cnt{color:var(--mut2);font-size:13px}.mhead .chev{color:var(--mut);transition:transform .3s}
+  .mod.open .chev{transform:rotate(180deg)}
+  .mlist{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .mod.open .mlist{max-height:420px}
+  .mlist ul{list-style:none;padding:4px 20px 18px 20px}
+  .mlist li{padding:9px 0 9px 26px;position:relative;color:var(--mut);font-size:14.5px;border-top:1px solid rgba(28,42,85,.5)}
+  .mlist li:first-child{border-top:none}
+  .mlist li::before{content:"▸";position:absolute;left:4px;color:var(--cyan)}
+  .mlist li b{color:var(--txt);font-weight:600}
+  /* bonuses + call */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+  .glass{background:linear-gradient(180deg,rgba(17,26,62,.65),rgba(12,19,48,.45));border:1px solid var(--line);border-radius:18px;padding:24px}
+  .glass .tag{font-family:var(--display);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .glass h3{font-family:var(--display);font-size:19px;margin-bottom:6px}.glass p{color:var(--mut);font-size:14.5px}
+  .highlight{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .hl{border:1px solid var(--line);border-radius:18px;padding:24px;background:linear-gradient(135deg,rgba(124,92,255,.12),transparent)}
+  .hl .ic{font-size:26px;margin-bottom:10px}.hl h3{font-family:var(--display);font-size:19px;margin-bottom:6px}.hl p{color:var(--mut);font-size:14.5px}
+  /* offer */
+  .offer{max-width:560px;margin:36px auto 0;border-radius:26px;padding:2px;background:linear-gradient(135deg,var(--violet),var(--cyan));box-shadow:0 30px 80px rgba(124,92,255,.3)}
+  .offer-in{background:#070a18;border-radius:24px;padding:34px 30px;text-align:center}
+  .stack{text-align:left;margin:0 auto 22px;max-width:430px;padding:0}
+  .stack li{list-style:none;display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--mut)}
+  .stack li span:first-child{color:var(--txt)}.stack li .w{color:var(--mut2);white-space:nowrap}
+  .tot{display:flex;justify-content:space-between;font-family:var(--display);color:var(--mut2);font-size:14px;margin-bottom:6px}
+  .price{font-family:var(--display);font-size:64px;font-weight:700;line-height:1;background:linear-gradient(120deg,#fff,var(--blue2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .once{color:var(--green);font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin:6px 0 22px}
+  .guarantee{margin-top:18px;color:var(--mut);font-size:13.5px}
+  .gbox{max-width:680px;margin:34px auto 0;border:1px dashed rgba(55,211,155,.4);border-radius:18px;padding:24px;text-align:center;background:rgba(55,211,155,.05)}
+  .gbox h3{font-family:var(--display);color:var(--green);font-size:20px;margin-bottom:8px}.gbox p{color:var(--mut);font-size:15px}
+  .note{max-width:680px;margin:22px auto 0;text-align:center;color:var(--mut2);font-size:13px}
+  /* faq */
+  .faq{max-width:760px;margin:34px auto 0}
+  .qitem{border-bottom:1px solid var(--line)}
+  .qq2{padding:18px 4px;cursor:pointer;display:flex;justify-content:space-between;gap:14px;font-family:var(--display);font-weight:600;font-size:16.5px}
+  .qq2 .chev{color:var(--mut);transition:transform .3s}.qitem.open .chev{transform:rotate(180deg)}
+  .qa2{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--mut);font-size:14.5px}
+  .qitem.open .qa2{max-height:240px;padding-bottom:18px}
+  .trust{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:26px;color:var(--mut2);font-size:13px}
+  .trust span{display:inline-flex;align-items:center;gap:7px}.ck{color:var(--green)}
+  footer{position:relative;z-index:2;padding:46px 0;text-align:center;color:var(--mut2);font-size:13px;border-top:1px solid rgba(28,42,85,.4)}
+  @media(max-width:760px){.pains{grid-template-columns:1fr 1fr}.story,.grid2,.highlight{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="neural"></canvas>
+<div class="aurora"></div>
+
+<nav><div class="wrap">
+  <div class="brand"><span class="dot"></span> BTN 3.0 · KI Networker</div>
+  <div><span class="navprice">149 € · einmalig</span><a class="navcta" href="#offer">Jetzt starten</a></div>
+</div></nav>
+
+<!-- HERO -->
+<header><div class="wrap narrow">
+  <span class="tagchip"><span class="dot"></span> HI × KI · Herzintelligenz trifft KI</span>
+  <h1>Vom klassischen Networker zum <span class="grad">KI-Networker</span> in 30 Tagen.</h1>
+  <div class="stream" id="stream"></div>
+  <div class="herobtns">
+    <a class="btn prime" href="#offer">Zugang für 149 € sichern →</a>
+    <span class="meta">Einmalig · kein Abo · 30 Tage Geld-zurück-Garantie</span>
+  </div>
+</div></header>
+
+<!-- PROBLEM -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Das kennst du</div>
+  <h2>Du wachst auf — und weißt nicht, wo du anfangen sollst.</h2>
+  <p class="lead">Keine Klarheit, kein Plan, einfach Chaos. Du machst viel — aber es bringt nichts. Es lag nie nur an
+  deiner Motivation: Dir fehlt morgens die Struktur, und 5 echte Engpässe bremsen dich seit Jahren. Business-KI gibt
+  dir beides zurück — einen glasklaren Tag und einen Hebel auf jeden Engpass.</p>
+  <div class="pains">
+    <div class="pain reveal"><div class="ic">🎯</div><div class="t">Zielgruppe</div></div>
+    <div class="pain reveal"><div class="ic">🤝</div><div class="t">Passende Partner</div></div>
+    <div class="pain reveal"><div class="ic">🧱</div><div class="t">Struktur</div></div>
+    <div class="pain reveal"><div class="ic">💬</div><div class="t">Follow-up</div></div>
+    <div class="pain reveal"><div class="ic">🔁</div><div class="t">Duplikation</div></div>
+  </div>
+</div></section>
+
+<!-- STORY -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Der Auslöser</div>
+  <div class="story">
+    <div>
+      <h2 class="left">Andreas war im <span class="grad">Silicon Valley</span>.</h2>
+      <p class="lead left">Nicht auf YouTube. An der Quelle der KI-Revolution. Was er dort gesehen hat, hat ihn
+      kurz erschrocken — und sofort klar gemacht: Das verändert unser Geschäft für immer. Statt Networkern Angst zu
+      machen, hat er die Eindrücke in ein System übersetzt, das <em style="color:var(--cyan)">deine</em> Stärke
+      verstärkt, statt sie zu ersetzen. Das ist HI × KI: <strong>Herzintelligenz trifft künstliche Intelligenz.</strong></p>
+    </div>
+    <div class="visual"><div class="vt">„KI ersetzt nicht deine<br>Persönlichkeit.<br>Sie verstärkt sie."</div></div>
+  </div>
+</div></section>
+
+<!-- ASSISTANT DEMO -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Das Herzstück · live</div>
+  <h2>Das ist kein Bot. Das ist ein Assistent, der <span class="grad">dich kennt</span>.</h2>
+  <p class="lead">Deinen Typ, deine Ziele, dein Team. Klick eine Frage — und erlebe, was du ab Tag 1 in der Hand hast.</p>
+  <div class="chat">
+    <div class="ctop"><div class="av">KI</div><div class="who">KI Networker Assistent<small style="color:var(--green)">● online · kennt dein Business</small></div></div>
+    <div class="stream-area" id="chatArea"><div class="msg ai">Hey 👋 Ich kenne deinen Typ, deine Ziele und dein Team. Womit legen wir los?</div></div>
+    <div class="chips" id="chips"></div>
+  </div>
+</div></section>
+
+<!-- CURRICULUM -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Das komplette Curriculum</div>
+  <h2>21 Videos. 6 Bereiche. Ein System.</h2>
+  <p class="lead">Schritt für Schritt, in deinem Tempo, ohne Technikstress. Klick einen Bereich auf.</p>
+  <div class="mods" id="mods">
+    <div class="mod"><div class="mhead"><span class="mtag">START</span><h3>Dein Einstieg in die KI-Zukunft</h3><span class="cnt">4 Videos</span><span class="chev">▾</span></div>
+      <div class="mlist"><ul>
+        <li><b>Die zwei Sorten Networker, die es 2028 geben wird</b> — warum deine Erfahrung jetzt zum Vorsprung wird</li>
+        <li><b>HI × KI: Warum die Zukunft beides braucht</b> — KI verstärkt deine Nähe, statt sie zu ersetzen</li>
+        <li><b>Die KI Networker Treppe</b> — fünf Stufen, das Kit führt dich bis Stufe 3</li>
+        <li><b>Dein Networker-Typen-Test</b> — die Grundlage für einen Assistenten, der zu dir passt</li>
+      </ul></div></div>
+    <div class="mod"><div class="mhead"><span class="mtag">SETUP</span><h3>Deinen KI-Assistenten einrichten</h3><span class="cnt">4 Videos</span><span class="chev">▾</span></div>
+      <div class="mlist"><ul>
+        <li><b>Assistenten öffnen & aktivieren</b> — per Link, Schritt für Schritt in ChatGPT</li>
+        <li><b>Dein Business-Profil erstellen</b> — Ziele, Firma, Zielgruppe, dein persönliches Warum</li>
+        <li><b>Assistent mit deinem Business vertraut machen</b> — Typenanalyse + Profil einspeisen</li>
+        <li><b>Dein Assistent kennt dich jetzt</b> — Stärken, Risiken, Arbeitsstil, nächste Schritte</li>
+      </ul></div></div>
+    <div class="mod"><div class="mhead"><span class="mtag">MODUL 1</span><h3>KI wirklich verstehen</h3><span class="cnt">3 Videos</span><span class="chev">▾</span></div>
+      <div class="mlist"><ul>
+        <li><b>Dein erster Wow-Moment in 10 Minuten</b> — sprich mit deiner KI, erhalte direkt eine Follow-up-Antwort</li>
+        <li><b>ChatGPT, Claude & Gemini: deine KI-Landkarte</b> — was du jetzt brauchst, was später</li>
+        <li><b>Fragen oder Führen</b> — klare Arbeitsaufträge + sicherer Umgang mit Daten</li>
+      </ul></div></div>
+    <div class="mod"><div class="mhead"><span class="mtag">MODUL 2</span><h3>Deine Engpässe & Diagnose</h3><span class="cnt">4 Videos</span><span class="chev">▾</span></div>
+      <div class="mlist"><ul>
+        <li><b>Die 5 echten Engpässe</b> — und warum es nie nur an Motivation lag</li>
+        <li><b>Lass deinen Assistenten dein Business durchleuchten</b> — deine größten persönlichen Hebel</li>
+        <li><b>Dein perfekter Networker-Tag</b> — Fokus statt Beschäftigung</li>
+        <li><b>Deine Diagnose ist dein Fahrplan</b> — Vorbereitung für deinen Analyse-Call</li>
+      </ul></div></div>
+    <div class="mod"><div class="mhead"><span class="mtag">MODUL 3</span><h3>Dein KI-Assistent im Alltag</h3><span class="cnt">3 Videos</span><span class="chev">▾</span></div>
+      <div class="mlist"><ul>
+        <li><b>Deine klare 60-Minuten-Routine</b> — aus Zielen drei klare Aktionen für heute</li>
+        <li><b>Nachrichten, die wirklich nach dir klingen</b> — Follow-ups & WhatsApp in deinem Ton</li>
+        <li><b>Die Reaktivierungs-Challenge</b> — hol festgefahrene Chats zurück</li>
+      </ul></div></div>
+    <div class="mod"><div class="mhead"><span class="mtag">MODUL 4</span><h3>Dein Blick nach oben</h3><span class="cnt">3 Videos</span><span class="chev">▾</span></div>
+      <div class="mlist"><ul>
+        <li><b>Was auf Stufe 4 & 5 möglich wird</b> — CRM, Content-Systeme, KI-Agenten, Team-Duplikation</li>
+        <li><b>Vom Typen-Test zum Charakter-Assessment</b> — dein vollständiger Handlungsplan</li>
+        <li><b>Deine 30-Tage-Bilanz</b> — Weg zum Certified KI Networker</li>
+      </ul></div></div>
+  </div>
+</div></section>
+
+<!-- BONUSES -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Inklusive · deine Boni</div>
+  <h2>Zwei Boni, die deinen Assistenten zum Leben erwecken.</h2>
+  <div class="grid2">
+    <div class="glass"><div class="tag">Bonus 1 · Wert 149 €</div><h3>KI Networker Prompt-Paket</h3><p>Fertige Arbeitsaufträge für Tagesplanung, Nachrichten, Analyse und Gesprächsvorbereitung — die Befehle, die deinen Assistenten zum Leben erwecken.</p></div>
+    <div class="glass"><div class="tag">Bonus 2 · Wert 99 €</div><h3>WhatsApp Nachrichten-Bibliothek</h3><p>Persönliche Vorlagen für Follow-ups, Reaktivierungen, Termine, Einwände und Gesprächseinstiege.</p></div>
+  </div>
+  <div class="highlight">
+    <div class="hl reveal"><div class="ic">📞</div><h3>Persönlicher Analyse-Call</h3><p>Nimm deine Diagnose mit in deinen persönlichen KI Networker Analyse-Call. <span style="color:var(--mut2)">Wert 250 €.</span></p></div>
+    <div class="hl reveal"><div class="ic">🏆</div><h3>Certified KI Networker</h3><p>Nach erfolgreichem Abschluss erhältst du dein offizielles Zertifikat. <span style="color:var(--mut2)">Wert 49 €.</span></p></div>
+  </div>
+</div></section>
+
+<!-- OFFER -->
+<section id="offer"><div class="wrap reveal">
+  <div class="eyebrow">Dein Zugang</div>
+  <h2>Alles drin. Einmalig. Kein Abo.</h2>
+  <div class="offer">
+    <div class="offer-in">
+      <ul class="stack">
+        <li><span>21 Videos in 6 Bereichen</span><span class="w">Wert 899 €</span></li>
+        <li><span>Persönlicher KI Networker Assistent</span><span class="w">Wert 99 €</span></li>
+        <li><span>Persönlicher KI Analyse-Call</span><span class="w">Wert 250 €</span></li>
+        <li><span>KI Networker Prompt-Paket</span><span class="w">Wert 149 €</span></li>
+        <li><span>WhatsApp Nachrichten-Bibliothek</span><span class="w">Wert 99 €</span></li>
+        <li><span>Certified KI Networker Zertifikat</span><span class="w">Wert 49 €</span></li>
+        <li><span>Lebenslanger Zugang zu allen Inhalten</span><span class="w">Wert 199 €</span></li>
+      </ul>
+      <div class="tot"><span>Gesamtwert</span><span><s>1.744 €</s></span></div>
+      <div class="price">149 €</div>
+      <div class="once">Einmalig · kein Abo</div>
+      <a class="btn prime big" href="#" onclick="return false;">🚀 Jetzt Pre-Sale-Zugang sichern</a>
+      <div class="guarantee">✓ 30 Tage Geld-zurück-Garantie · Sei von Tag 1 dabei</div>
+      <div class="guarantee" style="color:var(--cyan)">🚀 Pre-Sale: dein erstes Video sofort · voller Kurs ab 1. Juli</div>
+    </div>
+  </div>
+  <div class="gbox reveal">
+    <h3>30 Tage Geld-zurück-Garantie</h3>
+    <p>Setz alles um. Wenn du in 30 Tagen nicht spürst, dass dein Business KI-fit wird, bekommst du jeden Cent zurück — ohne Diskussion. Das Risiko trägt komplett bei uns.</p>
+  </div>
+  <p class="note">Wichtig: Ein separater ChatGPT-Plus-Zugang ist erforderlich und nicht im Kaufpreis enthalten. Die Einrichtung wird im Kurs vollständig erklärt.</p>
+  <div class="trust">
+    <span><span class="ck">✓</span> 1. Video sofort · Rest ab 1. Juli</span>
+    <span><span class="ck">✓</span> In deinem Tempo</span>
+    <span><span class="ck">✓</span> Ohne Technikstress</span>
+    <span><span class="ck">✓</span> Lebenslanger Zugang</span>
+  </div>
+</div></section>
+
+<!-- FAQ -->
+<section><div class="wrap reveal">
+  <div class="eyebrow">Noch Fragen?</div>
+  <h2>Die häufigsten Fragen.</h2>
+  <div class="faq" id="faq">
+    <div class="qitem"><div class="qq2">Brauche ich technisches Vorwissen? <span class="chev">▾</span></div><div class="qa2">Nein. Alles wird Klick für Klick erklärt — vom Öffnen des Assistenten bis zur Einrichtung. Wenn du WhatsApp bedienen kannst, schaffst du das hier auch.</div></div>
+    <div class="qitem"><div class="qq2">Wie schnell sehe ich Ergebnisse? <span class="chev">▾</span></div><div class="qa2">Dein erster Wow-Moment kommt in Modul 1 — in unter 10 Minuten. Das ganze Kit ist auf „Sieg vor Theorie" gebaut: erst erleben, dann verstehen.</div></div>
+    <div class="qitem"><div class="qq2">Funktioniert das in meinem Vertrieb / meiner Firma? <span class="chev">▾</span></div><div class="qa2">Ja. Der Assistent wird auf dein Business, deine Zielgruppe und deinen Stil personalisiert — unabhängig von Firma oder Produkt.</div></div>
+    <div class="qitem"><div class="qq2">Ist der ChatGPT-Plus-Zugang enthalten? <span class="chev">▾</span></div><div class="qa2">Nein, der separate ChatGPT-Plus-Zugang ist nicht im Preis enthalten. Die Einrichtung wird aber vollständig erklärt.</div></div>
+    <div class="qitem"><div class="qq2">Was, wenn es nichts für mich ist? <span class="chev">▾</span></div><div class="qa2">Dann bekommst du innerhalb von 30 Tagen dein Geld zurück — ohne Diskussion. Du gehst kein Risiko ein.</div></div>
+  </div>
+  <div style="text-align:center;margin-top:40px"><a class="btn prime big" href="#offer">🚀 Jetzt für 149 € starten →</a></div>
+</div></section>
+
+<footer><div class="wrap">
+  BTN 3.0 · 30 Tage KI Networker Starter Kit · HI × KI<br>
+  Become the Networker · Küffner Group · Vom klassischen Networker zum KI-Networker in 30 Tagen
+</div></footer>
+
+<script>
+/* reveal */
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* hero typewriter */
+const lines=["Wach auf mit einem klaren Plan — statt mit Chaos.","Ein KI-Assistent, der dir jeden Morgen den Tag strukturiert.","Erster Sieg in 10 Minuten. Kein Technikstress."];
+const sEl=document.getElementById('stream');sEl.innerHTML='<span id="t"></span><span class="cursor"></span>';
+const tt=document.getElementById('t');let li=0,ci=0;
+function type(){const c=lines[li];if(ci<=c.length){tt.textContent=c.slice(0,ci++);setTimeout(type,32);}else setTimeout(erase,1900);}
+function erase(){const c=lines[li];if(ci>0){tt.textContent=c.slice(0,--ci);setTimeout(erase,15);}else{li=(li+1)%lines.length;setTimeout(type,220);}}
+setTimeout(type,500);
+
+/* accordions */
+document.querySelectorAll('#mods .mhead').forEach(h=>h.onclick=()=>h.parentElement.classList.toggle('open'));
+document.querySelectorAll('#faq .qq2').forEach(h=>h.onclick=()=>h.parentElement.classList.toggle('open'));
+document.querySelector('#mods .mod').classList.add('open');
+
+/* chat demo */
+const QA=[
+ {q:"Schreib ein Follow-up für einen stillen Kontakt",a:`In <b>deinem</b> Ton:<br><br>„Hey Lisa, kein Stress — ich hatte selbst eine volle Woche. Mir fiel nur ein, dass dich <b>Zeitfreiheit</b> bewegt hat. 10 Minuten diese Woche? 😊"<br><br>Soll ich 2 Varianten bauen?`},
+ {q:"Plane meinen Tag (ich hab 1 Stunde)",a:`<b>0–15:</b> 3 Kontakte reaktivieren · <b>15–40:</b> 1 Gespräch (Verlauf liegt bereit) · <b>40–55:</b> 1 Social-Post · <b>55–60:</b> morgen vorbereiten. Starten?`},
+ {q:"Was ist mein größter Engpass?",a:`Nicht Motivation — <b>Follow-up</b>. 14 Gespräche sind versandet. Das sind ~<b>3 Partner</b>, die nur eine zweite Nachricht brauchen. Reaktivierung starten?`}
+];
+const chips=document.getElementById('chips'),area=document.getElementById('chatArea');
+QA.forEach((it,idx)=>{const b=document.createElement('button');b.className='chip';b.textContent=it.q;b.onclick=()=>ask(idx,b);chips.appendChild(b);});
+function scl(){area.scrollTop=area.scrollHeight;}
+function ask(idx,btn){btn.disabled=true;const u=document.createElement('div');u.className='msg user';u.textContent=QA[idx].q;area.appendChild(u);scl();
+  const ty=document.createElement('div');ty.className='msg ai';ty.innerHTML='<span class="typing"><i></i><i></i><i></i></span>';area.appendChild(ty);scl();
+  setTimeout(()=>{ty.innerHTML='';const parts=QA[idx].a.split(/(<[^>]+>|\s+)/).filter(Boolean);let i=0;(function go(){if(i<parts.length){ty.innerHTML+=parts[i++];scl();setTimeout(go,parts[i-1].startsWith('<')?5:36);}})();},1000);}
+
+/* neural canvas */
+const cv=document.getElementById('neural'),cx=cv.getContext('2d');let W,H,pts;
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight;const n=Math.min(60,Math.floor(W/24));pts=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3}));}
+rs();addEventListener('resize',rs);
+function draw(){cx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){const p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+  for(let j=i+1;j<pts.length;j++){const q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d<135){cx.strokeStyle='rgba(106,163,255,'+(1-d/135)*.2+')';cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);cx.stroke();}}
+  cx.fillStyle='rgba(124,92,255,.7)';cx.beginPath();cx.arc(p.x,p.y,1.6,0,7);cx.fill();}requestAnimationFrame(draw);}
+draw();
+</script>
+<script>/* Sicherheitsnetz: Inhalte niemals dauerhaft unsichtbar lassen */
+setTimeout(function(){document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in');});},2600);</script>
+</body>
+</html>
